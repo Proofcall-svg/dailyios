@@ -1,0 +1,12 @@
+In the original marketing website's CONFIG line, change:
+
+const CONFIG = { IOS_STORE_URL: '', ANDROID_STORE_URL: 'downloads/DailyDrop.apk' };
+
+To:
+
+const CONFIG = {
+  IOS_STORE_URL: 'https://proofcall-svg.github.io/dailydrop/',
+  ANDROID_STORE_URL: 'downloads/DailyDrop.apk'
+};
+
+This keeps the existing Android APK download unchanged. The iOS button opens the PWA. iPhone users then use Safari Share -> Add to Home Screen; websites cannot directly install an iOS IPA.

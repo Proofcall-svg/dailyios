@@ -1,0 +1,17 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex">
+<title>DailyDrop | Reset password</title>
+<style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#11111B;color:#CDD6F4;font-family:system-ui,sans-serif;padding:20px}
+.c{width:100%;max-width:380px;background:#1E1E2E;border-radius:20px;padding:28px}h1{margin:0 0 6px;font-size:1.5rem}p{color:#A6ADC8}
+input{width:100%;box-sizing:border-box;padding:14px;margin:10px 0;border-radius:12px;border:1px solid #313244;background:#181825;color:#CDD6F4;font-size:1rem}
+button{width:100%;padding:14px;border:0;border-radius:12px;background:#A78BFA;color:#11111B;font-weight:700;font-size:1rem;cursor:pointer}#m{min-height:1.4em;color:#CBA6F7}</style></head>
+<body><div class="c"><h1>Choose a new password</h1><p>Then go back to the DailyDrop app and log in.</p>
+<form id="f" hidden><input id="p" type="password" minlength="8" placeholder="New password (8+ characters)" required autocomplete="new-password"><input id="q" type="password" placeholder="Repeat password" required autocomplete="new-password"><button>Update password</button></form><p id="m">Checking your reset link…</p></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+const SUPABASE_URL="",SUPABASE_ANON_KEY=""; // same two values as www/config.js
+const sb=supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY,{auth:{detectSessionInUrl:true}}),m=document.getElementById('m'),f=document.getElementById('f');
+sb.auth.onAuthStateChange((e)=>{if(e==='PASSWORD_RECOVERY'){f.hidden=false;m.textContent=''}});
+setTimeout(()=>{if(f.hidden)m.textContent='This reset link is invalid or has expired. Request a new one in the app.'},4000);
+f.onsubmit=async e=>{e.preventDefault();if(p.value!==q.value){m.textContent='Passwords do not match.';return}
+ const{error}=await sb.auth.updateUser({password:p.value});m.textContent=error?error.message:'Password updated. You can now log in in the app.';if(!error)f.hidden=true};
+</script></body></html>
